@@ -1,10 +1,28 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import { HeroEmoji } from '../components/HeroEmoji';
-import { Main } from '../components/Main';
-import { MainMessage } from '../components/MainMessage';
+import React, { useState } from "react";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import { HeroEmoji } from "../components/HeroEmoji";
+import { Main } from "../components/Main";
+import { MainMessage } from "../components/MainMessage";
+import { PostCode } from "../components/PostCode";
 
 export default function Home() {
+  const [address, setAddress] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+
+  // 주소 선택 시 주소, 시/도, 시/군/구 값 전달
+  const handleAddressSelection = (address, sido, sigungu) => {
+    if (sido != "서울") {
+      return alert("서울 외의 지역은 지원하지 않습니다.")
+    }
+    // TODO - 구 확진자 심각도 API 호출
+    console.log(sigungu)
+    setAddress(address);
+    toggleIsSearching();
+  };
+
+  const toggleIsSearching = () => setIsSearching(!isSearching);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -22,8 +40,7 @@ export default function Home() {
         </div>
 
         <div>현재 위치:</div>
-        <div className={styles.location}>강남구 역삼1동</div>
-        {/* <div className={styles.hero}></div> */}
+        <div className={styles.location}>{address}</div>
         <div className={styles.emoji}>
           <HeroEmoji currentState="extreme" />
         </div>
@@ -32,15 +49,20 @@ export default function Home() {
           현재 ㅁ니;ㅇ럼니;어림ㅇㄴㄹㅁㄴㅇㄹㄴㅁㅇㄹㄴㅁ;ㅓㄹ이며,
           니어ㅏㄹ민;ㅓㅇ람ㄴ이럼ㅇ; 입니다.
         </div>
-        <div className={styles.secondary}>
-          <input
-            className={styles.input}
-            placeholder="어디로 가실 예정인가요?"
-          ></input>
-          <button className={styles.search}>
-            <div className={styles.searchIcon}></div>
-          </button>
-        </div>
+        {isSearching ? (
+          <PostCode onAddressSelect={handleAddressSelection} />
+        ) : (
+          <div className={styles.secondary} onClick={toggleIsSearching}>
+            <input
+              className={styles.input}
+              value={address}
+              placeholder="어디로 가실 예정인가요?"
+            />
+            <button className={styles.search}>
+              <div className={styles.searchIcon}></div>
+            </button>
+          </div>
+        )}
 
         <div className={styles.summary}></div>
       </Main>
