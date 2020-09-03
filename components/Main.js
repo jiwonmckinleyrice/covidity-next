@@ -26,5 +26,11 @@ export const Main = (props) => {
         {props.children}
       </main>
     );
+  } else {
+    return (
+      <main style={{ background: '#333333' }} className={styles.main}>
+        {props.children}
+      </main>
+    );
   }
 };

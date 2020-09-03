@@ -9,5 +9,7 @@ export const HeroEmoji = ({ currentState }) => {
     return <div>😓</div>;
   } else if (currentState == 'extreme') {
     return <div>😷</div>;
+  } else {
+    return <div>🤔</div>;
   }
 };

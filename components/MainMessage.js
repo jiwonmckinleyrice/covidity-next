@@ -10,5 +10,7 @@ export const MainMessage = ({ currentState }) => {
     return <div className={styles.title}>나쁩니다.</div>;
   } else if (currentState == 'extreme') {
     return <div className={styles.title}>매우 나쁩니다.</div>;
+  } else {
+    return <div className={styles.title}>아직 모르겠어요.</div>;
   }
 };
